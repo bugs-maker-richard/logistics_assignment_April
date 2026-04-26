@@ -1,0 +1,1447 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>跨越山海的旅程 | 一件海外包裹的通关奇遇记</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f3f7ff;
+      --muted: #9cb0c7;
+      --line: rgba(151, 205, 255, .28);
+      --blue: #57c7ff;
+      --cyan: #48ffd5;
+      --amber: #ffbd57;
+      --red: #ff4d6d;
+      --panel: rgba(5, 13, 24, .74);
+      --glass: rgba(12, 28, 45, .54);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: #02070e;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 12%, rgba(72, 255, 213, .11), transparent 30rem),
+        radial-gradient(circle at 78% 28%, rgba(87, 199, 255, .14), transparent 36rem),
+        linear-gradient(180deg, #02070e 0%, #07121e 47%, #160f09 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+      background:
+        linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.65), transparent 78%);
+    }
+
+    img { max-width: 100%; display: block; }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      z-index: 20;
+      background: linear-gradient(90deg, var(--cyan), var(--blue), var(--amber));
+      box-shadow: 0 0 18px rgba(72, 255, 213, .55);
+    }
+
+    .rail {
+      position: fixed;
+      z-index: 12;
+      right: clamp(12px, 2.4vw, 34px);
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      gap: 13px;
+    }
+
+    .rail a {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.65);
+      background: rgba(255,255,255,.08);
+      transition: transform .25s ease, background .25s ease, border-color .25s ease;
+    }
+
+    .rail a.active {
+      transform: scale(1.6);
+      background: var(--cyan);
+      border-color: var(--cyan);
+      box-shadow: 0 0 18px rgba(72, 255, 213, .7);
+    }
+
+    .hero, .scene {
+      position: relative;
+      min-height: 100vh;
+      isolation: isolate;
+    }
+
+    .hero {
+      display: grid;
+      align-items: center;
+      padding: 7vh clamp(22px, 6vw, 92px) 14vh;
+      overflow: hidden;
+    }
+
+    .github-link {
+      position: absolute;
+      top: clamp(18px, 3vw, 34px);
+      right: clamp(18px, 4vw, 56px);
+      z-index: 6;
+      color: rgba(235, 246, 255, .78);
+      font-size: clamp(12px, 1.1vw, 14px);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(72,255,213,.45);
+      padding-bottom: 4px;
+      transition: color .25s ease, border-color .25s ease, text-shadow .25s ease;
+    }
+
+    .github-link:hover {
+      color: #fff;
+      border-color: var(--cyan);
+      text-shadow: 0 0 18px rgba(72,255,213,.45);
+    }
+
+    .hero-copy {
+      align-self: center;
+      transform: translateY(-7vh);
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image: var(--image);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.07);
+      filter: saturate(1.08) contrast(1.04);
+    }
+
+    .hero .bg { animation: slowPush 14s ease-in-out infinite alternate; }
+
+    .hero::before,
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(2,7,14,.88), rgba(2,7,14,.2) 48%, rgba(2,7,14,.72)),
+        linear-gradient(0deg, rgba(2,7,14,.88), transparent 42%, rgba(2,7,14,.18));
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .5;
+      background:
+        radial-gradient(circle at 64% 38%, rgba(255,255,255,.34), transparent 6%),
+        radial-gradient(circle at 28% 53%, rgba(87,199,255,.24), transparent 12%);
+      animation: apronPulse 2.8s ease-in-out infinite;
+    }
+
+    .kicker {
+      margin: 0 0 18px;
+      color: var(--cyan);
+      font-size: clamp(13px, 1.4vw, 16px);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1, h2 {
+      margin: 0;
+      letter-spacing: 0;
+      line-height: 1.05;
+    }
+
+    h1 {
+      max-width: 960px;
+      font-size: clamp(44px, 8vw, 118px);
+      text-shadow: 0 18px 42px rgba(0,0,0,.55);
+    }
+
+    h2 { font-size: clamp(30px, 5vw, 72px); }
+
+    p {
+      margin: 0;
+      color: #d6e4f7;
+      line-height: 1.82;
+      font-size: clamp(16px, 1.4vw, 19px);
+    }
+
+    .lead {
+      max-width: 760px;
+      margin-top: 24px;
+      font-size: clamp(18px, 1.8vw, 24px);
+      color: #edf6ff;
+    }
+
+    .hero-copy { opacity: 0; animation: heroCopyIn 1s .2s ease forwards; }
+
+    .hero.auto-intro .kicker,
+    .hero.auto-intro h1,
+    .hero.auto-intro .lead,
+    .hero.auto-intro .scroll-cue {
+      opacity: 0;
+      filter: blur(12px);
+      transform: translate3d(0, 34px, 0);
+    }
+
+    .hero.auto-intro .kicker {
+      animation: titleReveal .72s .18s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    .hero.auto-intro h1 {
+      clip-path: inset(0 0 100% 0);
+      animation: heroTitleReveal 1.08s .58s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+
+    .hero.auto-intro .lead {
+      animation: titleReveal .78s 1.38s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    .hero.auto-intro .scroll-cue {
+      animation: cueReveal .76s 2.08s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    .text-staged .kicker,
+    .text-staged h1,
+    .text-staged h2,
+    .text-staged .tag,
+    .text-staged .lead,
+    .text-staged .scroll-cue,
+    .text-staged .copy > p,
+    .text-staged .facts,
+    .text-staged .scan-panel,
+    .text-staged .notice {
+      opacity: 0;
+      transform: translate3d(0, 28px, 0);
+      filter: blur(12px);
+      transition: opacity .72s cubic-bezier(.2, .8, .2, 1), transform .72s cubic-bezier(.2, .8, .2, 1), filter .72s ease, text-shadow .72s ease;
+      will-change: opacity, transform, filter;
+    }
+
+    .text-staged.text-step-1 .kicker,
+    .text-staged.text-step-1 h1,
+    .text-staged.text-step-1 h2,
+    .text-staged.text-step-1 .tag,
+    .text-staged.text-step-2 .kicker,
+    .text-staged.text-step-2 h1,
+    .text-staged.text-step-2 h2,
+    .text-staged.text-step-2 .tag,
+    .text-staged.text-step-2 .lead,
+    .text-staged.text-step-2 .copy > p,
+    .text-staged.text-step-3 .kicker,
+    .text-staged.text-step-3 h1,
+    .text-staged.text-step-3 h2,
+    .text-staged.text-step-3 .tag,
+    .text-staged.text-step-3 .lead,
+    .text-staged.text-step-3 .scroll-cue,
+    .text-staged.text-step-3 .copy > p,
+    .text-staged.text-step-3 .facts,
+    .text-staged.text-step-3 .scan-panel,
+    .text-staged.text-step-3 .notice {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      filter: blur(0);
+    }
+
+    .text-staged.text-step-1 h1,
+    .text-staged.text-step-1 h2,
+    .text-staged.text-step-2 .lead,
+    .text-staged.text-step-2 .copy > p,
+    .text-staged.text-step-3 .facts,
+    .text-staged.text-step-3 .scan-panel,
+    .text-staged.text-step-3 .notice {
+      text-shadow: 0 0 22px rgba(72,255,213,.18);
+    }
+
+    .text-staged .lead,
+    .text-staged .copy > p { transition-delay: 90ms; }
+    .text-staged .scroll-cue,
+    .text-staged .facts,
+    .text-staged .scan-panel,
+    .text-staged .notice { transition-delay: 140ms; }
+
+    .interaction-hint {
+      position: absolute;
+      left: clamp(22px, 6vw, 92px);
+      bottom: clamp(22px, 5vh, 54px);
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(3, 9, 16, .45);
+      color: rgba(233, 243, 255, .72);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      pointer-events: none;
+      opacity: .86;
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .interaction-hint::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--cyan);
+      box-shadow: 0 0 16px var(--cyan);
+      animation: apronPulse 1.6s ease-in-out infinite;
+    }
+
+    .reveal-on-hover.revealed .interaction-hint,
+    .reveal-on-hover:hover .interaction-hint {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .transition {
+      position: relative;
+      height: 190vh;
+      isolation: isolate;
+      background: #02070e;
+    }
+
+    .transition-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .transition-shot {
+      position: absolute;
+      inset: -8vh -8vw;
+      background-image: var(--image);
+      background-size: cover;
+      background-position: var(--pos, center);
+      will-change: transform, opacity, filter;
+    }
+
+    .transition .shot-a {
+      opacity: var(--a-opacity, 1);
+      transform:
+        translate3d(var(--a-x, 0), var(--a-y, 0), 0)
+        scale(var(--a-scale, 1.04));
+      filter: blur(var(--a-blur, 0)) saturate(1.08) contrast(1.04);
+    }
+
+    .transition .shot-b {
+      opacity: var(--b-opacity, 0);
+      transform:
+        translate3d(var(--b-x, 5vw), var(--b-y, 6vh), 0)
+        scale(var(--b-scale, 1.22));
+      filter: blur(var(--b-blur, 5px)) saturate(1.12) contrast(1.05);
+    }
+
+    .transition-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        radial-gradient(circle at var(--mx, 50%) var(--my, 50%), transparent 0 13%, rgba(2,7,14,.16) 28%, rgba(2,7,14,.78) 76%),
+        linear-gradient(90deg, rgba(2,7,14,.72), transparent 42%, rgba(2,7,14,.55));
+      pointer-events: none;
+    }
+
+    .transition-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      opacity: var(--beam-opacity, .22);
+      background:
+        linear-gradient(115deg, transparent 0 34%, rgba(72,255,213,.18) 41%, transparent 48%),
+        repeating-linear-gradient(0deg, transparent 0 36px, rgba(255,255,255,.045) 37px 38px);
+      mix-blend-mode: screen;
+      transform: translateX(var(--beam-x, -9vw));
+      pointer-events: none;
+    }
+
+    .transition-label {
+      position: absolute;
+      left: clamp(22px, 6vw, 92px);
+      bottom: clamp(34px, 8vh, 82px);
+      z-index: 4;
+      width: min(580px, calc(100vw - 44px));
+      transform: translateY(var(--label-y, 38px));
+      opacity: var(--label-opacity, 0);
+    }
+
+    .transition-label b {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--cyan);
+      font-size: 13px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .transition-label span {
+      display: block;
+      color: #fff;
+      font-size: clamp(30px, 5vw, 72px);
+      line-height: 1.06;
+      text-shadow: 0 18px 42px rgba(0,0,0,.56);
+    }
+
+    .transition-cue {
+      position: absolute;
+      left: clamp(22px, 6vw, 92px);
+      bottom: clamp(34px, 8vh, 82px);
+      z-index: 4;
+      display: inline-grid;
+      grid-auto-flow: column;
+      align-items: center;
+      gap: 16px;
+      color: #c7d7ea;
+      font-size: clamp(15px, 1.6vw, 20px);
+      opacity: clamp(.15, calc(var(--p, 0) * 1.8), 1);
+      transform: translateY(var(--label-y, 24px));
+      text-shadow: 0 12px 28px rgba(0,0,0,.46);
+    }
+
+    .transition-cue .wheel {
+      width: 38px;
+      height: 58px;
+      border-color: rgba(232, 244, 255, .72);
+    }
+
+    .scan-transition .transition-stage::after {
+      background:
+        linear-gradient(90deg, transparent 0 42%, rgba(255,77,109,.95) 48%, rgba(255,189,87,.72) 50%, rgba(255,77,109,.95) 52%, transparent 58%),
+        repeating-linear-gradient(0deg, transparent 0 24px, rgba(255,77,109,.18) 25px 27px);
+      opacity: var(--beam-opacity, .2);
+    }
+
+    .scan-transition .transition-label b { color: var(--red); }
+
+    .scroll-cue {
+      display: inline-grid;
+      grid-auto-flow: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .wheel {
+      width: 26px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.56);
+      border-radius: 999px;
+      position: relative;
+    }
+
+    .wheel::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      width: 4px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--cyan);
+      transform: translateX(-50%);
+      animation: wheel 1.5s ease-in-out infinite;
+    }
+
+    .scene {
+      display: grid;
+      align-items: center;
+      padding: clamp(72px, 10vw, 136px) clamp(22px, 6vw, 92px);
+      overflow: hidden;
+    }
+
+    .scene .bg {
+      opacity: .72;
+      transform: translate3d(0, var(--shift, 0), 0) scale(1.08);
+    }
+
+    .scene:nth-of-type(even) .scene-grid { grid-template-columns: minmax(0, .88fr) minmax(320px, 1.12fr); }
+
+    .scene-grid {
+      width: min(1220px, 100%);
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: minmax(320px, 1.08fr) minmax(0, .92fr);
+      gap: clamp(28px, 5vw, 72px);
+      align-items: center;
+    }
+
+    .copy {
+      position: relative;
+      padding-left: clamp(18px, 2vw, 28px);
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .copy::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 3px;
+      height: calc(100% - 10px);
+      background: linear-gradient(var(--cyan), transparent);
+      box-shadow: 0 0 18px rgba(72,255,213,.55);
+    }
+
+    .scene.in .copy,
+    .scene.in .visual,
+    .scene.in .data-card { opacity: 1; transform: none; }
+
+    .reveal-on-hover .copy,
+    .reveal-on-hover .data-card {
+      opacity: 0;
+      transform: translateY(54px) scale(.98);
+      filter: blur(10px);
+      transition: opacity .85s ease, transform .85s ease, filter .85s ease;
+    }
+
+    .reveal-on-hover .visual {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+
+    .reveal-on-hover .scene-grid {
+      transition: transform .7s ease;
+      transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    }
+
+    .reveal-on-hover.revealed .copy,
+    .reveal-on-hover:hover .copy,
+    .reveal-on-hover.revealed .data-card,
+    .reveal-on-hover:hover .data-card {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(6, 20, 34, .58);
+      color: var(--cyan);
+      font-size: 13px;
+    }
+
+    .tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: currentColor;
+      box-shadow: 0 0 14px currentColor;
+    }
+
+    .copy p { margin-top: 22px; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .fact, .data-card {
+      border: 1px solid rgba(168, 213, 255, .2);
+      background: linear-gradient(145deg, rgba(9,27,45,.68), rgba(5,13,24,.44));
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
+    }
+
+    .fact {
+      min-height: 88px;
+      padding: 16px;
+    }
+
+    .fact strong {
+      display: block;
+      color: #fff;
+      font-size: 21px;
+      margin-bottom: 4px;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .visual {
+      opacity: 0;
+      transform: translateY(42px) scale(.98);
+      transition: opacity .9s .08s ease, transform .9s .08s ease;
+      position: relative;
+    }
+
+    .media-frame {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(194, 226, 255, .2);
+      box-shadow: 0 28px 80px rgba(0,0,0,.46);
+      background: #050b12;
+    }
+
+    .media-frame img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(1.06) contrast(1.04);
+    }
+
+    .hud {
+      position: absolute;
+      inset: auto 16px 16px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .hud-line {
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      box-shadow: 0 0 14px var(--cyan);
+    }
+
+    .belt {
+      position: absolute;
+      inset: auto -10% 9% -10%;
+      height: 66px;
+      transform: perspective(360px) rotateX(58deg);
+      border-block: 1px solid rgba(255,255,255,.22);
+      background: repeating-linear-gradient(90deg, rgba(87,199,255,.16) 0 40px, rgba(255,255,255,.05) 40px 80px);
+      animation: belt 1.8s linear infinite;
+    }
+
+    .scan-scene .bg {
+      opacity: .54;
+      background-attachment: scroll;
+      transform: translate3d(0, var(--shift, 0), 0) scale(1.04);
+    }
+
+    .laser {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 30px, rgba(255,77,109,.16) 31px 32px),
+        repeating-linear-gradient(90deg, transparent 0 54px, rgba(87,199,255,.08) 55px 56px);
+      mix-blend-mode: screen;
+      opacity: .68;
+      pointer-events: none;
+      transform: translateZ(0);
+      will-change: opacity;
+    }
+
+    .laser::before {
+      content: "";
+      position: absolute;
+      inset: -12% auto -12% 0;
+      width: 28%;
+      background: linear-gradient(90deg, transparent, rgba(255,77,109,.26) 30%, rgba(255,196,87,.95) 50%, rgba(255,77,109,.3) 70%, transparent);
+      filter: drop-shadow(0 0 22px rgba(255,77,109,.85));
+      transform: translate3d(-120%, 0, 0);
+      animation: scanSweep 2.6s cubic-bezier(.45, 0, .2, 1) infinite;
+      will-change: transform;
+    }
+
+    .laser::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 52%, rgba(255,77,109,.2), transparent 38%);
+      opacity: .7;
+      animation: scanBreath 1.9s ease-in-out infinite;
+    }
+
+    .scan-panel {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .data-card {
+      padding: 18px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .8s .18s ease, transform .8s .18s ease;
+    }
+
+    .data-card b {
+      display: block;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .data-card span {
+      display: block;
+      color: #c8d8ea;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .alert-scene::before {
+      background:
+        linear-gradient(90deg, rgba(17,10,2,.88), rgba(30,14,0,.24) 48%, rgba(13,5,0,.82)),
+        linear-gradient(0deg, rgba(8,5,2,.9), transparent 42%, rgba(36,15,0,.26));
+    }
+
+    .alert-scene .tag { color: var(--amber); }
+    .alert-scene .copy::before { background: linear-gradient(var(--amber), transparent); }
+
+    .split-media {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .split-media .media-frame:nth-child(1) { transform: translateY(28px); }
+    .split-media .media-frame:nth-child(2) { transform: translateY(-18px); }
+
+    .notice {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border: 1px solid rgba(255,189,87,.35);
+      background: rgba(55, 27, 0, .42);
+      color: #ffe3b5;
+      line-height: 1.75;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .notice::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,189,87,.18), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    .phone-wrap {
+      display: grid;
+      place-items: center;
+    }
+
+    .phone {
+      position: relative;
+      width: min(360px, 82vw);
+      aspect-ratio: 9 / 18.5;
+      padding: 16px;
+      border-radius: 38px;
+      background: linear-gradient(135deg, #1b2636, #03060a 44%, #273548);
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 32px 90px rgba(0,0,0,.55), 0 0 55px rgba(72,255,213,.12);
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      width: 86px;
+      height: 20px;
+      border-radius: 0 0 14px 14px;
+      background: #02060a;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .phone-screen {
+      height: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+    }
+
+    .phone-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .notification-shot {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transform: scale(1);
+      filter: saturate(1.04) contrast(1.02);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .payment-gif {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.04) translateY(10px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .phone-status {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 3;
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid rgba(72,255,213,.28);
+      background: rgba(3, 10, 16, .72);
+      backdrop-filter: blur(12px);
+      color: #eaf8ff;
+      font-size: 12px;
+      line-height: 1.35;
+      box-shadow: 0 18px 42px rgba(0,0,0,.28);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .phone-status b {
+      color: var(--cyan);
+      font-size: 13px;
+    }
+
+    .phone-status::after {
+      content: "";
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--cyan), var(--amber));
+      box-shadow: 0 0 14px rgba(72,255,213,.65);
+      animation: payCountdown 3.2s .45s ease forwards;
+    }
+
+    .tax-scene.paid .notification-shot {
+      opacity: 0;
+      transform: scale(.985);
+    }
+
+    .tax-scene.paid .payment-gif {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .tax-scene.paid .phone-status {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .pay-trigger {
+      position: absolute;
+      left: 50%;
+      bottom: -54px;
+      z-index: 4;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      padding: 9px 13px;
+      border: 1px solid rgba(72,255,213,.26);
+      background: rgba(3, 10, 16, .72);
+      color: rgba(233, 243, 255, .76);
+      backdrop-filter: blur(12px);
+      font-size: 13px;
+      box-shadow: 0 18px 42px rgba(0,0,0,.28);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .pay-trigger::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--cyan);
+      box-shadow: 0 0 14px var(--cyan);
+    }
+
+    .tax-scene.paid .pay-trigger {
+      opacity: 0;
+      transform: translate(-50%, 10px);
+      pointer-events: none;
+    }
+
+    .glow-ring {
+      position: absolute;
+      inset: -22px;
+      border-radius: 48px;
+      border: 1px solid rgba(72,255,213,.28);
+      animation: ring 2.8s ease-in-out infinite;
+    }
+
+    .finale {
+      min-height: 120vh;
+      padding-bottom: 0;
+      background: linear-gradient(180deg, rgba(2,7,14,.2), rgba(34,18,4,.5));
+    }
+
+    .finale-stage {
+      width: min(1260px, 100%);
+      margin: 0 auto;
+    }
+
+    .finale .copy {
+      max-width: 840px;
+      margin-bottom: 42px;
+    }
+
+    .panorama {
+      position: relative;
+      min-height: 58vh;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.16);
+      border-bottom: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 -28px 90px rgba(255,171,74,.12);
+    }
+
+    .panorama img {
+      width: 120%;
+      max-width: none;
+      height: 58vh;
+      object-fit: cover;
+      transform: translateX(var(--pan, 0));
+      transition: transform .12s linear;
+    }
+
+    .panorama::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(2,7,14,.75), transparent 35%, rgba(2,7,14,.38));
+      pointer-events: none;
+    }
+
+    .route {
+      position: fixed;
+      left: clamp(14px, 2.6vw, 34px);
+      bottom: clamp(14px, 2.8vw, 34px);
+      z-index: 10;
+      width: min(440px, calc(100vw - 28px));
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(3, 9, 16, .58);
+      backdrop-filter: blur(14px);
+    }
+
+    .route-track {
+      position: relative;
+      height: 4px;
+      margin: 10px 4px 12px;
+      background: rgba(255,255,255,.14);
+      overflow: hidden;
+    }
+
+    .route-track span {
+      display: block;
+      width: var(--route, 0%);
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--amber));
+      box-shadow: 0 0 18px rgba(72,255,213,.6);
+    }
+
+    .route-labels {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @keyframes slowPush {
+      from { transform: scale(1.04) translate3d(-1.5%, 1%, 0); }
+      to { transform: scale(1.12) translate3d(1.5%, -1%, 0); }
+    }
+
+    @keyframes apronPulse {
+      50% { opacity: .78; filter: brightness(1.2); }
+    }
+
+    @keyframes riseIn {
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes heroCopyIn {
+      from { opacity: 0; transform: translateY(-4vh); }
+      to { opacity: 1; transform: translateY(-7vh); }
+    }
+
+    @keyframes titleReveal {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+        filter: blur(12px);
+      }
+      72% {
+        opacity: 1;
+        transform: translate3d(0, -2px, 0);
+        filter: blur(0);
+        text-shadow: 0 0 24px rgba(72,255,213,.2);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes heroTitleReveal {
+      0% {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0);
+        transform: translate3d(0, 42px, 0) scale(.985);
+        filter: blur(16px);
+      }
+      60% {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+        transform: translate3d(0, -4px, 0) scale(1.01);
+        filter: blur(0);
+        text-shadow: 0 0 34px rgba(72,255,213,.22), 0 18px 42px rgba(0,0,0,.55);
+      }
+      100% {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes cueReveal {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes textPulseIn {
+      0% {
+        opacity: .2;
+        transform: translate3d(0, 24px, 0);
+        filter: blur(10px);
+      }
+      65% {
+        opacity: 1;
+        transform: translate3d(0, -2px, 0);
+        filter: blur(0);
+        text-shadow: 0 0 22px rgba(72,255,213,.18);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        filter: blur(0);
+        text-shadow: none;
+      }
+    }
+
+    @keyframes wheel {
+      0% { opacity: 0; transform: translate(-50%, 0); }
+      35% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, 14px); }
+    }
+
+    @keyframes belt {
+      to { background-position: 80px 0; }
+    }
+
+    @keyframes scanSweep {
+      0% { transform: translate3d(-120%, 0, 0); }
+      58%, 100% { transform: translate3d(410%, 0, 0); }
+    }
+
+    @keyframes scanBreath {
+      50% { opacity: .38; }
+    }
+
+    @keyframes payCountdown {
+      to { width: 100%; }
+    }
+
+
+    @keyframes shimmer {
+      60%, 100% { transform: translateX(100%); }
+    }
+
+    @keyframes ring {
+      50% { transform: scale(1.04); opacity: .5; box-shadow: 0 0 42px rgba(72,255,213,.26); }
+    }
+
+    @media (max-width: 860px) {
+      .rail { display: none; }
+      .hero, .scene { padding-inline: 18px; }
+      .scene-grid, .scene:nth-of-type(even) .scene-grid {
+        grid-template-columns: 1fr;
+      }
+      .facts, .scan-panel, .split-media { grid-template-columns: 1fr; }
+      .route { display: none; }
+      .panorama img { width: 150%; }
+      .scene .bg { opacity: .5; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <nav class="rail" aria-label="章节导航">
+    <a href="#hero" aria-label="首屏"></a>
+    <a href="#customs" aria-label="进入海关"></a>
+    <a href="#scan" aria-label="智能扫描"></a>
+    <a href="#alert" aria-label="异常处置"></a>
+    <a href="#tax" aria-label="云端缴税"></a>
+    <a href="#finale" aria-label="放行出关"></a>
+  </nav>
+
+  <aside class="route" aria-label="包裹旅程进度">
+    <div class="route-track"><span></span></div>
+    <div class="route-labels">
+      <span>卸货</span><span>监管</span><span>机检</span><span>清关</span><span>派送</span>
+    </div>
+  </aside>
+
+  <header class="hero auto-intro" id="hero" data-step="0" style="--image:url('1货机卸货.png')">
+    <div class="bg" aria-hidden="true"></div>
+    <a class="github-link" href="https://github.com/bugs-maker-richard/logistics_assignment_April" target="_blank" rel="noopener noreferrer">Click here to enter Github project</a>
+    <div class="hero-copy">
+      <p class="kicker">Cross-Border Logistics Briefing</p>
+      <h1>跨境包裹的</h1>
+      <h1>通关之旅</h1>
+      <p class="lead">by Zhijian Lin</p>
+      <p class="scroll-cue"><span class="wheel" aria-hidden="true"></span><span>向下滑动，和包裹一起开启通关之旅</span></p>
+    </div>
+  </header>
+
+  <main>
+    <section class="transition customs-transition" aria-label="从机坪航拍推进到海关门前">
+      <div class="transition-stage">
+        <div class="transition-shot shot-a" style="--image:url('1货机卸货.png'); --pos: 42% 48%; --tx: -24vw; --ty: -12vh; --zoom: .98"></div>
+        <div class="transition-shot shot-b" style="--image:url('2进入海关.png'); --pos: 50% 52%; --bx: 8vw; --by: 8vh"></div>
+        <div class="transition-cue">
+          <span class="wheel" aria-hidden="true"></span>
+          <span>向下滚动，跟随包裹进入监管区</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene reveal-on-hover" id="customs" data-step="1" style="--image:url('2进入海关.png')">
+      <div class="bg" aria-hidden="true"></div>
+      <div class="interaction-hint">移动鼠标，唤出理货数据层</div>
+      <div class="scene-grid">
+        <div class="copy">
+          <span class="tag">第一幕 | 拆板理货</span>
+          <h2>化整为零，开启国门第一道关卡</h2>
+          <p>刚卸下的航空集装器 ULD 会被送入海关监管区拆板理货。包裹被逐件放上传送带，系统同步采集面单、重量、来源、品名和申报价值，形成后续查验的数字底账。</p>
+          <div class="facts">
+            <div class="fact"><strong>ULD</strong><span>航空集装器让货物能整板装卸，压缩机坪停留时间。</span></div>
+            <div class="fact"><strong>监管区</strong><span>包裹进入这里后，流转、查验、放行都有电子轨迹。</span></div>
+            <div class="fact"><strong>理货</strong><span>把大批量货物拆分成可识别、可分拣的单件包裹。</span></div>
+          </div>
+        </div>
+        <div class="visual">
+          <div class="media-frame">
+            <img src="2进入海关.png" alt="包裹进入中国海关分拨中心">
+            <div class="belt" aria-hidden="true"></div>
+            <div class="hud"><span class="hud-line"></span><span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="transition scan-transition" aria-label="从扫描仪入口推进到传送带内部">
+      <div class="transition-stage">
+        <div class="transition-shot shot-a" style="--image:url('3准备进入扫描仪.png'); --pos: 50% 50%; --tx: 0vw; --ty: -4vh; --zoom: .9"></div>
+        <div class="transition-shot shot-b" style="--image:url('4进入传送带内部.png'); --pos: 50% 50%; --bx: 0vw; --by: 4vh"></div>
+        <div class="transition-label">
+          <b>Scanner Dive</b>
+          <span>沿传送带向前穿梭，机器对包裹进行条形码录入和X光扫描</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scan-scene reveal-on-hover" id="scan" data-step="2" style="--image:url('3准备进入扫描仪.png')">
+      <div class="bg" aria-hidden="true"></div>
+      <div class="interaction-hint">移动鼠标，展开智能审图解释层</div>
+      <div class="scene-grid">
+        <div class="visual">
+          <div class="media-frame">
+            <img src="4进入传送带内部.png" alt="包裹进入红色扫描通道">
+            <div class="laser" aria-hidden="true"></div>
+            <div class="hud"><span class="hud-line"></span><span></span></div>
+          </div>
+        </div>
+        <div class="copy">
+          <span class="tag">第二幕 | 非侵入式查验</span>
+          <h2>智能审图，毫秒级的透视之眼</h2>
+          <p>进入仪器后，系统不拆箱也能识别内部轮廓、密度和疑似风险点。AI 审图会把图像与申报品名、价值、重量进行同屏比对，正常包裹快速放行，异常包裹被标记复核。</p>
+          <div class="scan-panel">
+            <div class="data-card"><b>光电互联</b><span>条码阵列瞬间读取面单信息，把实体包裹与物流数据绑定。</span></div>
+            <div class="data-card"><b>智能 CT</b><span>多维影像帮助识别夹藏、瞒报、漏报和疑似违禁品。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene alert-scene reveal-on-hover" id="alert" data-step="3" style="--image:url('5进入异常处置框(1).png')">
+      <div class="bg" aria-hidden="true"></div>
+      <div class="interaction-hint">移动鼠标，查看异常包裹如何复核</div>
+      <div class="scene-grid">
+        <div class="copy">
+          <span class="tag">第三幕 | 风控拦截</span>
+          <h2>异常拦截与人工复核</h2>
+          <p>当 X 光图像与申报信息不符，或命中风险模型，包裹会从主线自动分流到异常暂存区。随后关员在执法记录和系统留痕下开箱查验，确认无违禁问题后重新封箱，并放入查验告知单。</p>
+          <div class="notice">这一步看似“变慢”，其实是在为消费者、商家和国门安全做兜底：透明查验让跨境物流既快，也可追溯。</div>
+        </div>
+        <div class="visual split-media">
+          <div class="media-frame"><img src="5进入异常处置框(1).png" alt="包裹进入异常处置框"></div>
+          <div class="media-frame"><img src="6海关开箱.png" alt="海关关员开箱查验"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene tax-scene" id="tax" data-step="4" style="--image:url('6海关开箱.png')">
+      <div class="bg" aria-hidden="true"></div>
+      <div class="scene-grid">
+        <div class="visual phone-wrap">
+          <div class="phone">
+            <div class="glow-ring" aria-hidden="true"></div>
+            <div class="phone-screen">
+              <img class="notification-shot" src="7收到缴费通知.JPG" alt="手机收到缴税通知">
+              <img class="payment-gif" src="8成功缴费.GIF" alt="手机显示缴费成功">
+              <div class="phone-status" aria-hidden="true">
+                <b>待缴税通知已送达</b>
+                <span>核验税款后，系统将回传放行指令</span>
+              </div>
+            </div>
+            <div class="pay-trigger" aria-hidden="true">移动鼠标，完成线上缴税</div>
+          </div>
+        </div>
+        <div class="copy">
+          <span class="tag">第四幕 | 云端缴税</span>
+          <h2>阳光清关，一部手机搞定税款</h2>
+          <p>如果包裹达到征税标准，收件人会收到待缴税通知。通过第三方服务公司或者“掌上海关”小程序即可完成在线清缴，支付结果秒级回传海关系统。</p>
+          <div class="facts">
+            <div class="fact"><strong>推送</strong><span>待缴税信息直达收件人手机。</span></div>
+            <div class="fact"><strong>支付</strong><span>线上核验税款并完成缴纳。</span></div>
+            <div class="fact"><strong>放行</strong><span>电子指令回传后闸门开启。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene finale" id="finale" data-step="5">
+      <div class="finale-stage">
+        <div class="copy">
+          <span class="tag">尾声 | 破晓出关</span>
+          <h2>获批放行，开启国内旅途</h2>
+          <p>历经卸货、理货、机检、查验与清关，包裹终于获得海关放行指令。传送带尽头，干线物流车队整装待发，在清晨微光中驶离监管区，接力完成国内派送。</p>
+        </div>
+      </div>
+      <div class="panorama">
+        <img src="9出海关.png" alt="物流车辆从海关驶出">
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const sections = [...document.querySelectorAll('[data-step]')];
+    const dots = [...document.querySelectorAll('.rail a')];
+    const progress = document.querySelector('.progress');
+    const route = document.querySelector('.route-track span');
+    const panorama = document.querySelector('.panorama img');
+    const transitions = [...document.querySelectorAll('.transition')];
+    const revealScenes = [...document.querySelectorAll('.reveal-on-hover')];
+    const textSections = [...document.querySelectorAll('.hero, .scene')];
+    textSections.forEach((section) => {
+      section.classList.add('text-staged');
+      section.dataset.textStep = '0';
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        const step = Number(entry.target.dataset.step || 0);
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === step));
+      });
+    }, { threshold: .42 });
+
+    sections.forEach((section) => io.observe(section));
+
+    revealScenes.forEach((scene) => {
+      const reveal = () => scene.classList.add('revealed');
+      scene.addEventListener('pointermove', (event) => {
+        const rect = scene.getBoundingClientRect();
+        const x = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+        const y = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+        scene.style.setProperty('--mx', `${x * 100}`);
+        scene.style.setProperty('--my', `${y * 100}`);
+        scene.style.setProperty('--tilt-x', `${(y - .5) * -4}deg`);
+        scene.style.setProperty('--tilt-y', `${(x - .5) * 5}deg`);
+        reveal();
+      }, { passive: true });
+      scene.addEventListener('click', reveal);
+      scene.addEventListener('touchstart', reveal, { passive: true });
+    });
+
+    let wheelCount = 0;
+    let lastTextReveal = 0;
+    const taxScene = document.querySelector('.tax-scene');
+    const phone = document.querySelector('.tax-scene .phone');
+    if (taxScene && phone) {
+      const completePayment = () => taxScene.classList.add('paid');
+      taxScene.addEventListener('pointermove', completePayment, { passive: true });
+      phone.addEventListener('click', completePayment);
+      phone.addEventListener('touchstart', completePayment, { passive: true });
+    }
+
+    function currentTextSection() {
+      const viewportMid = innerHeight * .52;
+      let best = null;
+      let bestDistance = Infinity;
+      textSections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom < innerHeight * .12 || rect.top > innerHeight * .88) return;
+        const center = rect.top + rect.height / 2;
+        const distance = Math.abs(center - viewportMid);
+        if (distance < bestDistance) {
+          best = section;
+          bestDistance = distance;
+        }
+      });
+      return best;
+    }
+
+    function advanceVisibleText() {
+      const now = performance.now();
+      if (now - lastTextReveal < 420) return;
+      lastTextReveal = now;
+
+      const section = currentTextSection();
+      if (!section) return;
+      const next = Math.min(Number(section.dataset.textStep || 0) + 1, 3);
+      section.dataset.textStep = String(next);
+      section.classList.remove('text-step-1', 'text-step-2', 'text-step-3');
+      section.classList.add(`text-step-${next}`);
+      section.classList.add('in');
+      if (section.classList.contains('reveal-on-hover')) section.classList.add('revealed');
+    }
+
+    addEventListener('wheel', () => {
+      wheelCount += 1;
+      if (taxScene) taxScene.classList.add('paid');
+      requestAnimationFrame(advanceVisibleText);
+      document.documentElement.style.setProperty('--wheel-count', wheelCount);
+    }, { passive: true });
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function tick() {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - innerHeight;
+      const ratio = max > 0 ? scrollY / max : 0;
+      progress.style.width = `${ratio * 100}%`;
+      route.style.setProperty('--route', `${ratio * 100}%`);
+
+      document.querySelectorAll('.scene .bg').forEach((bg) => {
+        const rect = bg.parentElement.getBoundingClientRect();
+        const local = clamp((innerHeight - rect.top) / (innerHeight + rect.height), 0, 1);
+        bg.style.setProperty('--shift', `${(local - .5) * -64}px`);
+      });
+
+      transitions.forEach((transition) => {
+        const rect = transition.getBoundingClientRect();
+        const p = clamp(-rect.top / Math.max(rect.height - innerHeight, 1), 0, 1);
+        const eased = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+        const inv = 1 - eased;
+        const isScan = transition.classList.contains('scan-transition');
+        const aX = isScan ? 0 : -24;
+        const aY = isScan ? -5 : -12;
+        const zoom = isScan ? .9 : .98;
+        const bX = isScan ? 0 : 8;
+        const bY = isScan ? 4 : 8;
+        const stage = transition.querySelector('.transition-stage');
+        stage.style.setProperty('--p', eased.toFixed(3));
+        stage.style.setProperty('--a-opacity', inv.toFixed(3));
+        stage.style.setProperty('--b-opacity', eased.toFixed(3));
+        stage.style.setProperty('--a-x', `${eased * aX}vw`);
+        stage.style.setProperty('--a-y', `${eased * aY}vh`);
+        stage.style.setProperty('--a-scale', (1.04 + eased * zoom).toFixed(3));
+        stage.style.setProperty('--a-blur', `${eased * 3}px`);
+        stage.style.setProperty('--b-x', `${inv * bX}vw`);
+        stage.style.setProperty('--b-y', `${inv * bY}vh`);
+        stage.style.setProperty('--b-scale', (1.22 - eased * .16).toFixed(3));
+        stage.style.setProperty('--b-blur', `${inv * 5}px`);
+        stage.style.setProperty('--beam-opacity', (.22 + eased * .58).toFixed(3));
+        stage.style.setProperty('--beam-x', `${(eased - .5) * 18}vw`);
+        stage.style.setProperty('--label-y', `${inv * 38}px`);
+        stage.style.setProperty('--label-opacity', clamp((eased - .18) * 2.4, 0, 1).toFixed(3));
+      });
+
+      if (panorama) {
+        const rect = panorama.getBoundingClientRect();
+        const local = clamp((innerHeight - rect.top) / (innerHeight + rect.height), 0, 1);
+        panorama.style.setProperty('--pan', `${local * -16}%`);
+      }
+    }
+
+    addEventListener('scroll', tick, { passive: true });
+    addEventListener('resize', tick);
+    tick();
+  </script>
+</body>
+</html>
